@@ -56,7 +56,7 @@ body {
 ?>
 
 	<div id="profile_div">
-	
+		<img src="http://thisisnoah.x10.mx/photo21/i/678.jpg" alt="Profile" height="20%" width="80%">
 	</div>
 
 	<div id="content_div">
