@@ -12,6 +12,7 @@ body {
 	height:100%;
 	overflow-x:none;
 	margin:0;
+	padding:0;
 }
 
 #profile_div {
@@ -49,9 +50,11 @@ p,ul {
 }
 
 #fullName {
-	width:100%;
+	width:90%;
 	height:10%;
 	text-align:center;
+	margin:0;
+	padding:5%;
 }
 
 #userClassList {
@@ -77,8 +80,8 @@ p,ul {
 }
 
 #classListItems {
-	width:97%; 
-	padding:3% 3% 3% 0%; 
+	width:90%; 
+	padding: 5%;
 	display:inline-block;
 	text-align: center;
 	text-decoration: none;
