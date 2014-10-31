@@ -10,6 +10,8 @@
 body {
 	width:100%;
 	height:100%;
+	overflow-x:none;
+	margin:0;
 }
 
 #profile_div {
@@ -19,6 +21,7 @@ body {
 	top:0;
 	left:80%;
 	background-color:gray;
+	overflow-x:none;
 }
 
 #content_div {
@@ -40,6 +43,47 @@ body {
 	left:0%;
 }
 
+p,ul {
+	position:absolute;
+	font-family:"Arial";
+}
+
+#fullName {
+	width:100%;
+	height:10%;
+	text-align:center;
+}
+
+#userClassList {
+	width:100%;
+	height: 80%;
+	top:10%;
+	padding:0;
+	margin:0;
+}
+
+#classListLinks {
+	width: 97%;
+	text-align: center;
+	text-decoration: none;
+}
+
+#classListLinks:visited {
+	text-decoration:none;
+}
+
+#classListItems:hover {
+	background-color: purple;
+}
+
+#classListItems {
+	width:97%; 
+	padding:3% 3% 3% 0%; 
+	display:inline-block;
+	text-align: center;
+	text-decoration: none;
+	background-color: green;
+}
 </style>
 
 <body>
@@ -56,7 +100,27 @@ body {
 ?>
 
 	<div id="profile_div">
-		<img src="http://thisisnoah.x10.mx/photo21/i/678.jpg" alt="Profile" height="20%" width="80%">
+		<p id="fullName"><?php //echo $userFullName ?>Noah</p>
+
+		<ul id="userClassList">
+			<?php
+				$power = array('My','Name','Noah');
+				require 'html_element.php';
+
+				for ($i = 0; $i < count($power); $i++) {
+					$fullLink = "<a href='#" . $power[$i] . "' id='classListLinks'>" . $power[$i] . "</a>";
+
+					$listItem = new html_element("li");
+					$listItem->set("text", $fullLink);
+					$listItem->set("id", "classListItems");
+					$listItem->set("style", "");
+					$listItem->output();
+
+					$breakItem = new html_element("br");
+					$breakItem->output();
+				}
+			?>
+		</ul>
 	</div>
 
 	<div id="content_div">
