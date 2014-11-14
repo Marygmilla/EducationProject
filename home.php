@@ -5,16 +5,80 @@
 <html>
 <head>
 
-<style>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
+<script>
+
+function changeHeight(elementId) {
+	if (!e) var e = window.event;
+    e.cancelBubble = true;
+    if (e.stopPropagation) e.stopPropagation();
+
+	var currentElement = "classListItem" + elementId;
+	var theElement = document.getElementById(currentElement);
+	var startingHeight = theElement.style.height;
+
+	var createOptionDiv = document.createElement("DIV");
+	createOptionDiv.style.position = "relative";
+	createOptionDiv.style.top = "20%";
+	createOptionDiv.style.height = "80%";
+	createOptionDiv.style.width = "80%";
+	createOptionDiv.style.left = "10%";
+	createOptionDiv.style.background = "red";
+	createOptionDiv.style.padding = "0";
+	createOptionDiv.style.margin = "0";
+	createOptionDiv.id = "selectoptions" + elementId;
+
+	var tutOption = document.createElement("A");
+	tutOption.id = "tutoptions" + elementId;
+	tutOption.style.position = "absolute";
+	tutOption.style.top = "0";
+	tutOption.style.left = "0";
+	tutOption.style.width = "50%";
+	tutOption.style.height = "100%";
+	tutOption.style.background = "white";
+	tutOption.href = "#tutorial";
+	var tutText = document.createTextNode("Tutorials");
+	tutOption.appendChild(tutText);
+	
+	var fileOption = document.createElement("A");
+	fileOption.id = "fileoptions" + elementId;
+	fileOption.style.position = "absolute";
+	fileOption.style.top = "0";
+	fileOption.style.left = "50%";
+	fileOption.style.width = "50%";
+	fileOption.style.height = "100%";
+	fileOption.href = "#files";
+	fileOption.style.background = "white";
+	var fileText = document.createTextNode("Files");
+	fileOption.appendChild(fileText);
+
+	if (theElement.style.height == "30%") {
+		theElement.style.height = "5%";
+		document.getElementById("selectoptions" + elementId).remove();
+		document.getElementById("fileoptions" + elementId).remove();
+		document.getElementById("tutoptions" + elementId).remove();
+	}
+	else {
+		theElement.style.height = "30%";
+		/*
+		$("#classListItem"+elementId).click(function() {
+			$("#classListItem"+elementId).animate({height:"30%"});
+		});
+		*/
+		theElement.appendChild(createOptionDiv);
+		createOptionDiv.appendChild(fileOption);
+		createOptionDiv.appendChild(tutOption);
+	}
+}
+</script>
+
+<style>
 body {
-	width:100%;
-	height:100%;
 	overflow-x:none;
 	margin:0;
 	padding:0;
 }
-
 #profile_div {
 	position:absolute;
 	width:20%;
@@ -35,7 +99,7 @@ body {
 	background-color:blue;
 }
 
-#classes_div {
+#assignment_div {
 	background-color:red;
 	position:absolute;
 	width:20%;
@@ -50,17 +114,22 @@ p,ul {
 }
 
 #fullName {
-	width:90%;
-	height:10%;
+	width:100%;
+	top:2.5%;
 	text-align:center;
 	margin:0;
-	padding:5%;
+	padding:0;
 }
 
-#userClassList {
+#fullNameWrapper {
+	width: 100%;
+	height: 10%;
+}
+
+#userClasses {
 	width:100%;
 	height: 80%;
-	top:10%;
+	top:0%;
 	padding:0;
 	margin:0;
 }
@@ -69,23 +138,36 @@ p,ul {
 	width: 97%;
 	text-align: center;
 	text-decoration: none;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 
 #classListLinks:visited {
 	text-decoration:none;
 }
 
-#classListItems:hover {
+.classListItems:hover {
 	background-color: purple;
 }
 
-#classListItems {
+.classListItems {
 	width:90%; 
 	padding: 5%;
+	height: 5%;
 	display:inline-block;
 	text-align: center;
 	text-decoration: none;
 	background-color: green;
+	-webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
 }
 </style>
 
@@ -103,20 +185,27 @@ p,ul {
 ?>
 
 	<div id="profile_div">
-		<p id="fullName"><?php //echo $userFullName ?>Noah</p>
+		<div id="fullNameWrapper"> 
+			<p id="fullName"><?php //echo $userFullName ?>Noah</p>
+		</div>
+	</div>
 
-		<ul id="userClassList">
+	<div id="content_div">
+		<ul id="userClasses">
 			<?php
-				$power = array('My','Name','Noah');
 				require 'html_element.php';
 
+				$power = array('My','Name','Noah','Blahhhhhhh');
+
 				for ($i = 0; $i < count($power); $i++) {
-					$fullLink = "<a href='#" . $power[$i] . "' id='classListLinks'>" . $power[$i] . "</a>";
+					$fullLink = "<a id='classListLinks'>" . $power[$i] . "</a>";
 
 					$listItem = new html_element("li");
 					$listItem->set("text", $fullLink);
-					$listItem->set("id", "classListItems");
-					$listItem->set("style", "");
+					$elementId = "classListItem" . $i;
+					$listItem->set("id", $elementId);
+					$listItem->set("class","classListItems");
+					$listItem->set("onclick", "changeHeight($i)");
 					$listItem->output();
 
 					$breakItem = new html_element("br");
@@ -125,12 +214,8 @@ p,ul {
 			?>
 		</ul>
 	</div>
-
-	<div id="content_div">
-		<p><?php echo $username; ?></p>
-	</div>
 	
-	<div id="classes_div">
+	<div id="assignment_div">
 	</div>
 </body>
 
