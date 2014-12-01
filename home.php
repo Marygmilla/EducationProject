@@ -5,80 +5,16 @@
 <html>
 <head>
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
-<script>
-
-function changeHeight(elementId) {
-	if (!e) var e = window.event;
-    e.cancelBubble = true;
-    if (e.stopPropagation) e.stopPropagation();
-
-	var currentElement = "classListItem" + elementId;
-	var theElement = document.getElementById(currentElement);
-	var startingHeight = theElement.style.height;
-
-	var createOptionDiv = document.createElement("DIV");
-	createOptionDiv.style.position = "relative";
-	createOptionDiv.style.top = "20%";
-	createOptionDiv.style.height = "80%";
-	createOptionDiv.style.width = "80%";
-	createOptionDiv.style.left = "10%";
-	createOptionDiv.style.background = "red";
-	createOptionDiv.style.padding = "0";
-	createOptionDiv.style.margin = "0";
-	createOptionDiv.id = "selectoptions" + elementId;
-
-	var tutOption = document.createElement("A");
-	tutOption.id = "tutoptions" + elementId;
-	tutOption.style.position = "absolute";
-	tutOption.style.top = "0";
-	tutOption.style.left = "0";
-	tutOption.style.width = "50%";
-	tutOption.style.height = "100%";
-	tutOption.style.background = "white";
-	tutOption.href = "#tutorial";
-	var tutText = document.createTextNode("Tutorials");
-	tutOption.appendChild(tutText);
-	
-	var fileOption = document.createElement("A");
-	fileOption.id = "fileoptions" + elementId;
-	fileOption.style.position = "absolute";
-	fileOption.style.top = "0";
-	fileOption.style.left = "50%";
-	fileOption.style.width = "50%";
-	fileOption.style.height = "100%";
-	fileOption.href = "#files";
-	fileOption.style.background = "white";
-	var fileText = document.createTextNode("Files");
-	fileOption.appendChild(fileText);
-
-	if (theElement.style.height == "30%") {
-		theElement.style.height = "5%";
-		document.getElementById("selectoptions" + elementId).remove();
-		document.getElementById("fileoptions" + elementId).remove();
-		document.getElementById("tutoptions" + elementId).remove();
-	}
-	else {
-		theElement.style.height = "30%";
-		/*
-		$("#classListItem"+elementId).click(function() {
-			$("#classListItem"+elementId).animate({height:"30%"});
-		});
-		*/
-		theElement.appendChild(createOptionDiv);
-		createOptionDiv.appendChild(fileOption);
-		createOptionDiv.appendChild(tutOption);
-	}
-}
-</script>
-
 <style>
+
 body {
+	width:100%;
+	height:100%;
 	overflow-x:none;
 	margin:0;
 	padding:0;
 }
+
 #profile_div {
 	position:absolute;
 	width:20%;
@@ -99,13 +35,14 @@ body {
 	background-color:blue;
 }
 
-#assignment_div {
+#assignments_div {
 	background-color:red;
 	position:absolute;
 	width:20%;
 	height:100%;
 	top:0;
 	left:0%;
+	overflow-x:none;
 }
 
 p,ul {
@@ -114,22 +51,17 @@ p,ul {
 }
 
 #fullName {
-	width:100%;
-	top:2.5%;
+	width:90%;
+	height:10%;
 	text-align:center;
 	margin:0;
-	padding:0;
+	padding:5%;
 }
 
-#fullNameWrapper {
-	width: 100%;
-	height: 10%;
-}
-
-#userClasses {
+#userClassList {
 	width:100%;
 	height: 80%;
-	top:0%;
+	top:10%;
 	padding:0;
 	margin:0;
 }
@@ -138,37 +70,47 @@ p,ul {
 	width: 97%;
 	text-align: center;
 	text-decoration: none;
-	-webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
 
 #classListLinks:visited {
 	text-decoration:none;
 }
 
-.classListItems:hover {
+#classListItems:hover {
 	background-color: purple;
 }
 
-.classListItems {
+#classListItems {
 	width:90%; 
 	padding: 5%;
-	height: 5%;
 	display:inline-block;
 	text-align: center;
 	text-decoration: none;
 	background-color: green;
-	-webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
 }
+
+#userAssignments {
+	width:100%;
+	height: 80%;
+	top:10%;
+	padding:0;
+	margin:0;
+}
+
+#assignmentListLinks {
+	width: 97%;
+	text-align: center;
+	text-decoration: none;
+}
+
+#assignmentListItems {
+	width: 90%;
+	padding: 5%;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	background-color: orange;
+	}
 </style>
 
 <body>
@@ -185,27 +127,20 @@ p,ul {
 ?>
 
 	<div id="profile_div">
-		<div id="fullNameWrapper"> 
-			<p id="fullName"><?php //echo $userFullName ?>Noah</p>
-		</div>
-	</div>
+		<p id="fullName"><?php //echo $userFullName ?>Noah</p>
 
-	<div id="content_div">
-		<ul id="userClasses">
+		<ul id="userClassList">
 			<?php
+				$power = array('My','Name','Noah');
 				require 'html_element.php';
 
-				$power = array('My','Name','Noah','Blahhhhhhh');
-
 				for ($i = 0; $i < count($power); $i++) {
-					$fullLink = "<a id='classListLinks'>" . $power[$i] . "</a>";
+					$fullLink = "<a href='#" . $power[$i] . "' id='classListLinks'>" . $power[$i] . "</a>";
 
 					$listItem = new html_element("li");
 					$listItem->set("text", $fullLink);
-					$elementId = "classListItem" . $i;
-					$listItem->set("id", $elementId);
-					$listItem->set("class","classListItems");
-					$listItem->set("onclick", "changeHeight($i)");
+					$listItem->set("id", "classListItems");
+					$listItem->set("style", "");
 					$listItem->output();
 
 					$breakItem = new html_element("br");
@@ -214,8 +149,33 @@ p,ul {
 			?>
 		</ul>
 	</div>
+
+	<div id="content_div">
+		<p><?php echo $username; ?></p>
+	</div>
 	
-	<div id="assignment_div">
+	<div id="assignments_div">
+	<h> Assignments </h>
+	<ul id="userAssignments">
+		<?php
+			$power = array('chapter 1','chapter 2','chapter 3');
+			require 'html_element.php';
+			
+			for ($i = 0; $i < count($power); $i++) {
+			$fullLink = "<a href='#" . $power[$i] . "' id='assignmentListLinks'>" . $power[$i] . "</a>";
+			
+			$listItem = new html_element("li");
+			$listItem->set("text", $fullLink);
+			$listItem->set("id", "assignmentListItems");
+			$listItem->set("style", "");
+			$listItem->output();
+			
+			$breakItem = new html_elemt("br");
+			$breakItem->output();
+		}
+		?>
+	</ul>
+			
 	</div>
 </body>
 
