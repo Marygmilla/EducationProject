@@ -86,7 +86,28 @@ p,ul {
 	text-align: center;
 	text-decoration: none;
 	background-color: green;
+}#userAssignments {
+	width:100%;
+	height: 80%;
+	top:10%;
+	padding:0;
+	margin:0;
 }
+
+#assignmentListLinks {
+	width: 97%;
+	text-align: center;
+	text-decoration: none;
+}
+
+#assignmentListItems {
+	width: 90%;
+	padding: 5%;
+	display: inline-block;
+	text-align: center;
+	text-decoration: none;
+	background-color: orange;
+	}
 </style>
 
 <body>
@@ -130,7 +151,27 @@ p,ul {
 		<p><?php echo $username; ?></p>
 	</div>
 	
-	<div id="classes_div">
+	<div id="assignments_div">
+			<h> Assignments </h>
+	<ul id="userAssignments">
+		<?php
+			$power = array('chapter 1','chapter 2','chapter 3');
+			require 'html_element.php';
+			
+			for ($i = 0; $i < count($power); $i++) {
+			$fullLink = "<a href='#" . $power[$i] . "' id='assignmentListLinks'>" . $power[$i] . "</a>";
+			
+			$listItem = new html_element("li");
+			$listItem->set("text", $fullLink);
+			$listItem->set("id", "assignmentListItems");
+			$listItem->set("style", "");
+			$listItem->output();
+			
+			$breakItem = new html_elemt("br");
+			$breakItem->output();
+		}
+		?>
+	</ul>
 	</div>
 </body>
 
